@@ -1,11 +1,10 @@
 #include <iostream>
 
-
 class DynamicArray {
 protected:
 	size_t size;
 	int* data;
-	int length;
+	unsigned int length;
 
 	void growIfNecessary() {
 
@@ -23,7 +22,7 @@ protected:
 
 	void copyToNewSize(size_t newSize) {
 		int* temp = new int[newSize];
-		for (int i = 0; i < length; i++) {
+		for (unsigned int i = 0; i < length; i++) {
 			temp[i] = data[i];
 		}
 		delete[] data;
@@ -33,7 +32,7 @@ protected:
 
 
 	void checkIndex(int index) {
-		if (index >= length || index < 0)
+		if (index < 0 || (unsigned int)index >= length)
 			throw std::out_of_range("Index is out of the array range!");
 	}
 
@@ -47,7 +46,7 @@ protected:
 	}
 
 public:
-	DynamicArray(size_t startingSize = 8) {
+	DynamicArray(int startingSize = 8) {
 		if (startingSize < 1)
 			startingSize = 8;
 		size = startingSize;
@@ -63,7 +62,7 @@ public:
 		size = another.size;
 		data = new int[size];
 		length = another.length;
-		for (int i = 0; i < length; i++)
+		for (unsigned int i = 0; i < length; i++)
 			data[i] = another.data[i];
 	}
 
@@ -75,7 +74,7 @@ public:
 		size = another.size;
 		data = new int[size];
 		length = another.length;
-		for (int i = 0; i < length; i++)
+		for (unsigned int i = 0; i < length; i++)
 			data[i] = another.data[i];
 		return *this;
 	}
@@ -115,7 +114,7 @@ public:
 		checkIndex(index);
 		int value = data[index];
 		length--;
-		for (int i = index; i < length; i++)
+		for (unsigned int i = index; i < length; i++)
 			data[i] = data[i + 1];
 		shrinkIfNecessary();
 		return value;
@@ -132,7 +131,7 @@ public:
 	}
 
 	int search(int value) {
-		for (int i = 0; i < length; i++) {
+		for (unsigned int i = 0; i < length; i++) {
 			if (data[i] == value)
 				return i;
 		}
@@ -144,4 +143,3 @@ public:
 	}
 
 };
-
