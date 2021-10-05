@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 
 struct node {
@@ -201,13 +199,13 @@ public:
     }
 
     void clear() {
-        if (isEmpty())
-            throw std::out_of_range("Empty list");
-        while (head->next != nullptr) {
-            head = head->next;
-            delete head->prev;
+        for (int i = 0; i < length; i++) {
+            node* tmp = head->next;
+            delete head;
+            head = tmp;
         }
-        removeLastOne();
+        length = 0;
+        head = tail = nullptr;
     }
 
 };
