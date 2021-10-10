@@ -36,6 +36,53 @@ private:
         traverseInOrder(tmp->right);
     }
 
+    void remove(int value, node* target, node* parent) {
+        if (value > target->data)
+            remove(value, target->right, target);
+        else if (value < target->data)
+            remove(value, target->left, target);
+        else {
+            if (target == root)
+                root = removeRoute(target);
+            else if (target->data > parent->data)
+                parent->right = removeRoute(target);
+            else
+                parent->left = removeRoute(target);
+        }
+    }
+
+    node* removeRoute(node* target) {
+        if (target->right == nullptr && target->left == nullptr)
+            return removeLeaf(target);
+        else if (target->right != nullptr && target->left != nullptr)
+            return removeTwoChildren(target);
+        else
+            return removeOneChild(target);
+    }
+
+    node* removeLeaf(node* target) {
+        delete target;
+        return nullptr;
+    }
+
+    node* removeOneChild(node* target) {
+        node* tmp;
+        if (target->right == nullptr) tmp = target->left;
+        else tmp = target->right;
+        delete target;
+        return tmp;
+    }
+
+    node* removeTwoChildren(node* target) {
+        node* tmp = target->left;
+        while (tmp->right != nullptr)
+            tmp = tmp->right;
+        int data = tmp->data;
+        remove(tmp->data);
+        target->data = data;
+        return target;
+    }
+
 public:
     BST() {
         root = nullptr;
@@ -83,6 +130,10 @@ public:
     void insert(int value) {
         node* newNode = new node{ value , nullptr, nullptr };
         return insert(newNode, root);
+    }
+
+    void remove(int value) {
+        remove(value, root, root);
     }
 
     int min() {
