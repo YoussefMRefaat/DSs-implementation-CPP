@@ -137,6 +137,8 @@ public:
     }
 
     int min() {
+        if (root == nullptr)
+            throw std::runtime_error("empty tree!");
         node* tmp = root;
         while (tmp->left != nullptr)
             tmp = tmp->left;
@@ -144,6 +146,8 @@ public:
     }
 
     int max() {
+        if (root == nullptr)
+            throw std::runtime_error("empty tree!");
         node* tmp = root;
         while (tmp->right != nullptr)
             tmp = tmp->right;
