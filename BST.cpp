@@ -37,7 +37,9 @@ private:
     }
 
     void remove(int value, node* target, node* parent) {
-        if (value > target->data)
+        if (target == nullptr)
+            throw std::runtime_error("Not found!");
+        else if (value > target->data)
             remove(value, target->right, target);
         else if (value < target->data)
             remove(value, target->left, target);
